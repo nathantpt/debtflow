@@ -1588,7 +1588,7 @@ select.form-input { cursor: pointer; }
 .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
 </style>
 </head>
-<body>
+<body style="visibility:hidden;">
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">
@@ -4618,6 +4618,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
   // Detecta sessao ativa ao recarregar pagina
   auth.onAuthStateChanged(function(user) {
+    document.body.style.visibility = 'visible';
     if (user) {
       db.collection('usuarios').where('email', '==', user.email).limit(1).get()
         .then(function(snap) {
