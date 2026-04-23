@@ -3052,7 +3052,7 @@ function salvarRegistro() {
 
   if (editandoId !== null) {
     // EDIÇÃO
-    const idx = registros.findIndex(r => r.id === editandoId);
+    const idx = registros.findIndex(r => String(r.id) === String(editandoId));
     if (idx !== -1) {
       const anterior = { ...registros[idx] };
       const reg = registros[idx];
@@ -3158,7 +3158,7 @@ function salvarRegistro() {
 }
 
 function excluirRegistro(id) {
-  const reg = registros.find(r => r.id === id);
+  const reg = registros.find(r => String(r.id) === String(id));
   if (!reg) return;
   if (!confirm(`Tem certeza que deseja excluir o registro de "${reg.nome}"?\n\nEsta ação não pode ser desfeita.`)) return;
 
@@ -3167,7 +3167,7 @@ function excluirRegistro(id) {
 }
 
 function duplicarRegistro(id) {
-  const reg = registros.find(r => r.id === id);
+  const reg = registros.find(r => String(r.id) === String(id));
   if (!reg) return;
   const copia = {
     ...JSON.parse(JSON.stringify(reg)),
@@ -3184,7 +3184,7 @@ function duplicarRegistro(id) {
 }
 
 function marcarRecebido(id) {
-  const reg = registros.find(r => r.id === id);
+  const reg = registros.find(r => String(r.id) === String(id));
   if (!reg) return;
   const anterior = reg.status;
   reg.status = 'Recebido';
@@ -3198,7 +3198,7 @@ function marcarRecebido(id) {
 }
 
 function marcarPago(id) {
-  const reg = registros.find(r => r.id === id);
+  const reg = registros.find(r => String(r.id) === String(id));
   if (!reg) return;
   const anterior = reg.status;
   reg.status = 'Pago';
@@ -3220,7 +3220,7 @@ function openModal(id = null) {
   limparFormulario();
 
   if (id !== null) {
-    const reg = registros.find(r => r.id === id);
+    const reg = registros.find(r => String(r.id) === String(id));
     if (!reg) return;
     document.getElementById('modalTitle').textContent = `Editar Registro #${reg.id}`;
     preencherFormulario(reg);
@@ -3311,7 +3311,7 @@ function fecharModalOverlay(e) {
 
 // HISTÓRICO MODAL
 function abrirHistorico(id) {
-  const reg = registros.find(r => r.id === id);
+  const reg = registros.find(r => String(r.id) === String(id));
   if (!reg) return;
 
   const historico = reg.historico || [];
@@ -3507,25 +3507,25 @@ function renderTabela() {
         <td>${daysChip}</td>
         <td>
           <div class="actions-cell" onclick="event.stopPropagation()">
-            <button class="btn-icon blue" title="Editar" onclick="openModal(${r.id})">
+            <button class="btn-icon blue" title="Editar" onclick="openModal('${r.id}')">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             </button>
             ${r.email ? `<button class="btn-icon" title="Email: ${escapeHtmlAttr(r.email)} — Clique para copiar" style="color:var(--cyan)" onclick="abrirPainelEmail(${r.id}, event)">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             </button>` : ''}
-            <button class="btn-icon green" title="Marcar Recebido" onclick="marcarRecebido(${r.id})">
+            <button class="btn-icon green" title="Marcar Recebido" onclick="marcarRecebido('${r.id}')">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
             </button>
-            <button class="btn-icon" title="Marcar Pago" style="color:var(--green-d)" onclick="marcarPago(${r.id})">
+            <button class="btn-icon" title="Marcar Pago" style="color:var(--green-d)" onclick="marcarPago('${r.id}')">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </button>
-            <button class="btn-icon orange" title="Duplicar" onclick="duplicarRegistro(${r.id})">
+            <button class="btn-icon orange" title="Duplicar" onclick="duplicarRegistro('${r.id}')">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             </button>
-            <button class="btn-icon" title="Histórico" onclick="abrirHistorico(${r.id})">
+            <button class="btn-icon" title="Histórico" onclick="abrirHistorico('${r.id}')">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </button>
-            <button class="btn-icon red" title="Excluir" onclick="excluirRegistro(${r.id})">
+            <button class="btn-icon red" title="Excluir" onclick="excluirRegistro('${r.id}')">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
             </button>
           </div>
@@ -3916,8 +3916,8 @@ function renderAlertas() {
       <div class="alerta-detalhe">🏦 ${escapeHtml(obterResumoBancosRegistro(item.reg) || '—')} · 👤 ${escapeHtml(item.reg.responsavel || '—')}</div>
       ${item.reg.prioridade !== 'Normal' ? `<div class="alerta-detalhe">🔴 Prioridade: <strong>${item.reg.prioridade}</strong></div>` : ''}
       <div class="alerta-acoes">
-        <button class="btn btn-ghost btn-sm" onclick="openModal(${item.reg.id})">Editar</button>
-        <button class="btn btn-ghost btn-sm" onclick="marcarPago(${item.reg.id})">Pago</button>
+        <button class="btn btn-ghost btn-sm" onclick="openModal('${item.reg.id}')">Editar</button>
+        <button class="btn btn-ghost btn-sm" onclick="marcarPago('${item.reg.id}')">Pago</button>
       </div>
     </div>
   `).join('');
@@ -4492,7 +4492,7 @@ function fecharEmailPopoverExterno(e) {
 
 function abrirPainelEmail(id, event) {
   event.stopPropagation();
-  const reg = registros.find(r => r.id === id);
+  const reg = registros.find(r => String(r.id) === String(id));
   if (!reg || !reg.email) return;
 
   // Fecha qualquer popover aberto
