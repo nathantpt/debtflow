@@ -27,7 +27,7 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
     const auth = firebase.auth();
-    let currentUser = null;   // { username, email, role }
+    let currentUser = null;
     let unsubscribeSnapshot = null;
   </script>
 <style>
@@ -1552,8 +1552,7 @@ select.form-input { cursor: pointer; }
 .urgency-dot.yellow { background: var(--yellow); }
 .urgency-dot.green { background: var(--green); }
 
-
-/* ===== LOGIN ===== */
+/* LOGIN */
 #loginScreen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;}
 #loginScreen.hidden{display:none;}
 .login-box{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:40px 44px;width:100%;max-width:380px;box-shadow:0 8px 48px rgba(0,0,0,.5);}
@@ -1570,14 +1569,11 @@ select.form-input { cursor: pointer; }
 .login-btn{width:100%;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;margin-top:6px;transition:background .2s;}
 .login-btn:hover{background:var(--primary-d);}
 .login-error{color:var(--red);font-size:12px;text-align:center;margin-top:10px;min-height:16px;}
-/* badge usuário topbar */
-#userBadge{display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);font-size:13px;color:var(--text2);transition:background .2s;}
-#userBadge:hover{background:var(--bg2);}
+#userBadge{display:flex;align-items:center;gap:8px;cursor:pointer;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);font-size:13px;color:var(--text2);}
 #userBadge strong{color:var(--text);font-weight:600;}
 .role-pill{font-size:10px;padding:2px 7px;border-radius:99px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;}
 .role-master{background:rgba(79,126,255,.15);color:var(--primary);}
 .role-user{background:rgba(45,212,160,.15);color:var(--green);}
-/* ===== PÁGINA USUÁRIOS ===== */
 .usuarios-grid{display:grid;gap:14px;}
 .usuario-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
 .usuario-info{display:flex;align-items:center;gap:14px;}
@@ -1585,43 +1581,29 @@ select.form-input { cursor: pointer; }
 .usuario-name{font-weight:600;font-size:14px;color:var(--text);}
 .usuario-email{font-size:12px;color:var(--text2);margin-top:2px;}
 .usuario-actions{display:flex;gap:8px;}
-.btn-danger-sm{background:rgba(240,82,82,.1);color:var(--red);border:1px solid rgba(240,82,82,.2);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--font);transition:background .2s;}
-.btn-danger-sm:hover{background:rgba(240,82,82,.2);}
+.btn-danger-sm{background:rgba(240,82,82,.1);color:var(--red);border:1px solid rgba(240,82,82,.2);border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--font);}
 .novo-usuario-form{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:20px;}
 .novo-usuario-form h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:16px;}
 .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
-
 </style>
 </head>
 <body>
-
-<!-- LOGIN -->
 <div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">
       <div class="login-logo-icon">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
       </div>
-      <div>
-        <div class="login-logo-name">DebtFlow</div>
-        <div class="login-logo-sub">Controle de Compra de Dívida</div>
-      </div>
+      <div><div class="login-logo-name">DebtFlow</div><div class="login-logo-sub">Controle de Compra de D&iacute;vida</div></div>
     </div>
     <p class="login-title">Acesso ao sistema</p>
     <p class="login-sub">Digite suas credenciais para continuar</p>
-    <div class="login-field">
-      <label>Usuário</label>
-      <input type="text" id="loginUser" placeholder="Ex: NATHAN" autocomplete="off" style="text-transform:uppercase;letter-spacing:.05em;" />
-    </div>
-    <div class="login-field">
-      <label>Senha</label>
-      <input type="password" id="loginSenha" placeholder="••••••••" />
-    </div>
+    <div class="login-field"><label>Usu&aacute;rio</label><input type="text" id="loginUser" placeholder="Ex: NATHAN" autocomplete="off" style="text-transform:uppercase;" /></div>
+    <div class="login-field"><label>Senha</label><input type="password" id="loginSenha" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" /></div>
     <button class="login-btn" onclick="fazerLogin()">Entrar</button>
     <div class="login-error" id="loginErro"></div>
   </div>
 </div>
-
 
 <!-- ===================== SIDEBAR ===================== -->
 <aside class="sidebar" id="sidebar">
@@ -1664,8 +1646,8 @@ select.form-input { cursor: pointer; }
     </a>
     <span class="nav-section-label">SISTEMA</span>
     <a class="nav-item" id="navUsuarios" data-page="usuarios" onclick="navigate('usuarios')">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      Usuários
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Usu&aacute;rios
     </a>
     <a class="nav-item" id="navBackup" data-page="backup" onclick="navigate('backup')">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
@@ -1690,7 +1672,7 @@ select.form-input { cursor: pointer; }
     <div class="topbar-right">
       <div id="userBadge" onclick="fazerLogout()" title="Clique para sair">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <strong id="userBadgeName">—</strong>
+        <strong id="userBadgeName">&mdash;</strong>
         <span class="role-pill" id="userBadgeRole"></span>
       </div>
       <button class="btn btn-primary" onclick="openModal()">
@@ -2075,30 +2057,17 @@ select.form-input { cursor: pointer; }
     </div>
   </section>
 
-
-  <!-- PAGE: USUÁRIOS -->
   <section class="page" id="page-usuarios">
     <div class="novo-usuario-form">
-      <h3>➕ Novo Usuário</h3>
+      <h3>Novo Usu&aacute;rio</h3>
       <div class="form-row-3">
-        <div>
-          <label class="form-label">Nome de login</label>
-          <input class="form-input" type="text" id="novoUserLogin" placeholder="Ex: GABRIEL" style="text-transform:uppercase;" />
-        </div>
-        <div>
-          <label class="form-label">Senha</label>
-          <input class="form-input" type="password" id="novoUserSenha" placeholder="Mínimo 6 caracteres" />
-        </div>
-        <div style="display:flex;align-items:flex-end;">
-          <button class="btn btn-primary" style="width:100%" onclick="criarUsuario()">Criar Usuário</button>
-        </div>
+        <div><label class="form-label">Login</label><input class="form-input" type="text" id="novoUserLogin" placeholder="Ex: GABRIEL" style="text-transform:uppercase;" /></div>
+        <div><label class="form-label">Senha</label><input class="form-input" type="password" id="novoUserSenha" placeholder="M&iacute;nimo 6 caracteres" /></div>
+        <div style="display:flex;align-items:flex-end;"><button class="btn btn-primary" style="width:100%" onclick="criarUsuario()">Criar Usu&aacute;rio</button></div>
       </div>
     </div>
-    <div class="usuarios-grid" id="usuariosLista">
-      <div style="color:var(--text2);font-size:13px;text-align:center;padding:20px;">Carregando usuários...</div>
-    </div>
+    <div class="usuarios-grid" id="usuariosLista"><div style="color:var(--text2);font-size:13px;text-align:center;padding:20px;">Carregando...</div></div>
   </section>
-
 </main>
 
 <!-- ===================== MODAL CADASTRO/EDIÇÃO ===================== -->
@@ -2484,153 +2453,143 @@ function gerarClientesBaseAPartirDosRegistros(lista = []) {
   return [...mapa.values()];
 }
 
-// ============================================================
-//  FIREBASE AUTH + DATA
-// ============================================================
-
+// ============ FIREBASE ============
 function fazerLogin() {
-  const username = (document.getElementById('loginUser').value || '').trim().toUpperCase();
-  const senha    = document.getElementById('loginSenha').value;
-  const erroEl   = document.getElementById('loginErro');
+  var username = (document.getElementById('loginUser').value || '').trim().toUpperCase();
+  var senha = document.getElementById('loginSenha').value;
+  var erroEl = document.getElementById('loginErro');
   erroEl.textContent = '';
-  if (!username || !senha) { erroEl.textContent = 'Preencha usuário e senha.'; return; }
-
-  // Busca o usuário na coleção 'usuarios' do Firestore
+  if (!username || !senha) { erroEl.textContent = 'Preencha usuario e senha.'; return; }
   db.collection('usuarios').where('login', '==', username).limit(1).get()
-    .then(snap => {
-      if (snap.empty) { erroEl.textContent = 'Usuário não encontrado.'; return; }
-      const userData = snap.docs[0].data();
-      if (!userData.ativo) { erroEl.textContent = 'Usuário desativado. Fale com o administrador.'; return; }
-
-      return auth.signInWithEmailAndPassword(userData.email, senha)
-        .then(() => {
-          currentUser = { username, email: userData.email, role: userData.role, uid: userData.uid };
+    .then(function(snap) {
+      if (snap.empty) { erroEl.textContent = 'Usuario nao encontrado.'; return; }
+      var u = snap.docs[0].data();
+      if (!u.ativo) { erroEl.textContent = 'Usuario desativado.'; return; }
+      return auth.signInWithEmailAndPassword(u.email, senha)
+        .then(function() {
+          currentUser = { username: username, email: u.email, role: u.role };
           document.getElementById('loginScreen').classList.add('hidden');
           document.getElementById('userBadgeName').textContent = username;
-          const rp = document.getElementById('userBadgeRole');
-          rp.textContent = userData.role === 'master' ? 'Master' : 'Usuário';
-          rp.className   = 'role-pill ' + (userData.role === 'master' ? 'role-master' : 'role-user');
+          var rp = document.getElementById('userBadgeRole');
+          rp.textContent = u.role === 'master' ? 'Master' : 'Usuario';
+          rp.className = 'role-pill ' + (u.role === 'master' ? 'role-master' : 'role-user');
           aplicarRestricoesPerfil();
           carregarDadosFirebase();
         });
     })
-    .catch(() => { erroEl.textContent = 'Senha incorreta.'; });
+    .catch(function(e) { erroEl.textContent = 'Senha incorreta.'; console.error(e); });
 }
 
 function fazerLogout() {
-  if (!confirm('Deseja sair do sistema?')) return;
+  if (!confirm('Deseja sair?')) return;
   if (unsubscribeSnapshot) unsubscribeSnapshot();
-  auth.signOut().then(() => {
+  auth.signOut().then(function() {
     currentUser = null; registros = []; clientesBase = [];
     document.getElementById('loginScreen').classList.remove('hidden');
-    document.getElementById('loginUser').value  = '';
+    document.getElementById('loginUser').value = '';
     document.getElementById('loginSenha').value = '';
     document.getElementById('loginErro').textContent = '';
   });
 }
 
 function aplicarRestricoesPerfil() {
-  const master = currentUser && currentUser.role === 'master';
-  ['navBackup','navUsuarios'].forEach(id => {
-    const el = document.getElementById(id);
+  var master = currentUser && currentUser.role === 'master';
+  ['navBackup','navUsuarios'].forEach(function(id) {
+    var el = document.getElementById(id);
     if (el) el.style.display = master ? '' : 'none';
   });
 }
 
-// ── Carregar registros em tempo real ──
 function carregarDadosFirebase() {
   if (unsubscribeSnapshot) unsubscribeSnapshot();
-  unsubscribeSnapshot = db.collection('registros').onSnapshot(snap => {
+  unsubscribeSnapshot = db.collection('registros').onSnapshot(function(snap) {
     registros = [];
-    snap.forEach(d => registros.push(normalizarRegistroLegacy({ ...d.data(), id: d.id })));
+    snap.forEach(function(d) {
+      var obj = d.data(); obj.id = d.id;
+      registros.push(normalizarRegistroLegacy(obj));
+    });
     clientesBase = gerarClientesBaseAPartirDosRegistros(registros);
     renderDashboard(); renderTabela(); renderAlertas(); atualizarBadges(); renderBackupInfo();
   });
 }
 
-// ── Salvar / Deletar registro ──
-async function salvarRegistroFirebase(reg) {
-  try { await db.collection('registros').doc(String(reg.id)).set(reg); }
-  catch(e) { toast('Erro ao salvar no servidor.', 'error'); }
-}
-async function deletarRegistroFirebase(id) {
-  try { await db.collection('registros').doc(String(id)).delete(); }
-  catch(e) { toast('Erro ao deletar no servidor.', 'error'); }
+function salvarRegistroFirebase(reg) {
+  db.collection('registros').doc(String(reg.id)).set(reg)
+    .catch(function(e) { toast('Erro ao salvar.', 'error'); });
 }
 
-// ── Gerenciar Usuários ──
-async function criarUsuario() {
-  const login = (document.getElementById('novoUserLogin').value || '').trim().toUpperCase();
-  const senha = document.getElementById('novoUserSenha').value;
-  if (!login || senha.length < 6) { toast('Preencha login e senha (mín. 6 caracteres).', 'error'); return; }
+function deletarRegistroFirebase(id) {
+  db.collection('registros').doc(String(id)).delete()
+    .catch(function(e) { toast('Erro ao deletar.', 'error'); });
+}
 
-  const email = login.toLowerCase() + '@debtflow.app';
-  try {
-    // Cria no Firebase Auth
-    const cred = await auth.createUserWithEmailAndPassword(email, senha);
-    // Salva metadados no Firestore
-    await db.collection('usuarios').doc(cred.user.uid).set({
-      login, email, role: 'user', ativo: true, uid: cred.user.uid,
-      criadoEm: new Date().toISOString(), criadoPor: currentUser.username
+function criarUsuario() {
+  var login = (document.getElementById('novoUserLogin').value || '').trim().toUpperCase();
+  var senha = document.getElementById('novoUserSenha').value;
+  if (!login || senha.length < 6) { toast('Login e senha obrigatorios (min 6 chars).', 'error'); return; }
+  var email = login.toLowerCase() + '@debtflow.app';
+  auth.createUserWithEmailAndPassword(email, senha)
+    .then(function(cred) {
+      return db.collection('usuarios').doc(cred.user.uid).set({
+        login: login, email: email, role: 'user', ativo: true,
+        uid: cred.user.uid, criadoEm: new Date().toISOString(), criadoPor: currentUser.username
+      });
+    })
+    .then(function() {
+      document.getElementById('novoUserLogin').value = '';
+      document.getElementById('novoUserSenha').value = '';
+      toast('Usuario ' + login + ' criado! Refaca seu login.', 'success');
+      fazerLogout();
+    })
+    .catch(function(e) {
+      if (e.code === 'auth/email-already-in-use') toast('Usuario ja existe.', 'error');
+      else toast('Erro: ' + e.message, 'error');
     });
-    // Volta a logar com o master (createUser troca o currentUser no Firebase Auth)
-    await auth.signInWithEmailAndPassword(currentUser.email, '').catch(() => {});
-    document.getElementById('novoUserLogin').value = '';
-    document.getElementById('novoUserSenha').value = '';
-    toast(`Usuário ${login} criado com sucesso!`, 'success');
-    renderUsuarios();
-  } catch(e) {
-    if (e.code === 'auth/email-already-in-use') toast('Esse usuário já existe.', 'error');
-    else toast('Erro ao criar usuário: ' + e.message, 'error');
-  }
 }
 
-async function desativarUsuario(uid, login) {
-  if (!confirm(`Desativar o usuário ${login}? Ele não conseguirá mais entrar.`)) return;
-  await db.collection('usuarios').doc(uid).update({ ativo: false });
-  toast(`Usuário ${login} desativado.`, 'info');
-  renderUsuarios();
+function desativarUsuario(uid, login) {
+  if (!confirm('Desativar ' + login + '?')) return;
+  db.collection('usuarios').doc(uid).update({ativo: false})
+    .then(function() { toast(login + ' desativado.', 'info'); renderUsuarios(); });
 }
 
-async function reativarUsuario(uid, login) {
-  await db.collection('usuarios').doc(uid).update({ ativo: true });
-  toast(`Usuário ${login} reativado.`, 'success');
-  renderUsuarios();
+function reativarUsuario(uid, login) {
+  db.collection('usuarios').doc(uid).update({ativo: true})
+    .then(function() { toast(login + ' reativado.', 'success'); renderUsuarios(); });
 }
 
-async function renderUsuarios() {
-  const lista = document.getElementById('usuariosLista');
+function renderUsuarios() {
+  var lista = document.getElementById('usuariosLista');
   if (!lista) return;
   lista.innerHTML = '<div style="color:var(--text2);font-size:13px;padding:12px;">Carregando...</div>';
-  const snap = await db.collection('usuarios').get();
-  if (snap.empty) { lista.innerHTML = '<div style="color:var(--text2);font-size:13px;padding:12px;">Nenhum usuário cadastrado.</div>'; return; }
-  lista.innerHTML = '';
-  snap.forEach(d => {
-    const u = d.data();
-    const card = document.createElement('div');
-    card.className = 'usuario-card';
-    card.innerHTML = \`
-      <div class="usuario-info">
-        <div class="usuario-avatar">\${u.login[0]}</div>
-        <div>
-          <div class="usuario-name">\${u.login} <span class="role-pill \${u.role === 'master' ? 'role-master' : 'role-user'}">\${u.role === 'master' ? 'Master' : 'Usuário'}</span></div>
-          <div class="usuario-email">\${u.email} · \${u.ativo ? '✅ Ativo' : '🔴 Desativado'}</div>
-        </div>
-      </div>
-      <div class="usuario-actions">
-        \${u.role !== 'master' ? (u.ativo
-          ? \`<button class="btn-danger-sm" onclick="desativarUsuario('\${u.uid}','\${u.login}')">Desativar</button>\`
-          : \`<button class="btn btn-primary" style="padding:5px 12px;font-size:12px;" onclick="reativarUsuario('\${u.uid}','\${u.login}')">Reativar</button>\`
-        ) : ''}
-      </div>
-    \`;
-    lista.appendChild(card);
+  db.collection('usuarios').get().then(function(snap) {
+    if (snap.empty) { lista.innerHTML = '<div style="color:var(--text2);padding:12px;">Nenhum usuario.</div>'; return; }
+    lista.innerHTML = '';
+    snap.forEach(function(d) {
+      var u = d.data();
+      var rc = u.role === 'master' ? 'role-master' : 'role-user';
+      var rl = u.role === 'master' ? 'Master' : 'Usuario';
+      var st = u.ativo ? 'Ativo' : 'Desativado';
+      var ab = '';
+      if (u.role !== 'master') {
+        ab = u.ativo
+          ? '<button class="btn-danger-sm" onclick="desativarUsuario('' + u.uid + '','' + u.login + '')">Desativar</button>'
+          : '<button class="btn btn-primary" style="padding:5px 12px;font-size:12px;" onclick="reativarUsuario('' + u.uid + '','' + u.login + '')">Reativar</button>';
+      }
+      var card = document.createElement('div');
+      card.className = 'usuario-card';
+      card.innerHTML = '<div class="usuario-info"><div class="usuario-avatar">' + u.login[0] + '</div>'
+        + '<div><div class="usuario-name">' + u.login + ' <span class="role-pill ' + rc + '">' + rl + '</span></div>'
+        + '<div class="usuario-email">' + u.email + ' - ' + st + '</div></div></div>'
+        + '<div class="usuario-actions">' + ab + '</div>';
+      lista.appendChild(card);
+    });
   });
 }
 
-// ── Compatibilidade ──
-function carregarDados() { /* dados carregados via Firebase após login */ }
-function salvarDados() { registros.forEach(r => salvarRegistroFirebase(r)); }
+function carregarDados() { /* Firebase carrega apos login */ }
+function salvarDados() { registros.forEach(function(r) { salvarRegistroFirebase(r); }); }
+
 
 function buscarClientePorCPF(cpf = '') {
   const cpfNormalizado = normalizarCPF(cpf);
@@ -2684,7 +2643,7 @@ function sincronizarClienteBase(cliente, silent = true) {
     });
   }
 
-  // clientesBase reconstruído pelo onSnapshot
+  // clientesBase reconstruido pelo onSnapshot
 
   if (!silent) {
     atualizarInfoClienteBase(`Dados pessoais ${acao}s na base para este CPF.`, 'success');
@@ -3176,7 +3135,7 @@ function salvarRegistro() {
     email: document.getElementById('formEmail').value.trim(),
   }, true);
 
-  const regAtual = editandoId !== null ? registros.find(r => r.id === editandoId) : registros[registros.length-1];
+  var regAtual = editandoId !== null ? registros.find(function(r){return r.id===editandoId;}) : registros[registros.length-1];
   if (regAtual) salvarRegistroFirebase(regAtual);
   fecharModal();
 }
@@ -3187,7 +3146,7 @@ function excluirRegistro(id) {
   if (!confirm(`Tem certeza que deseja excluir o registro de "${reg.nome}"?\n\nEsta ação não pode ser desfeita.`)) return;
 
   deletarRegistroFirebase(id);
-  toast('Registro excluído.', 'info');
+  toast('Registro excluido.', 'info');
 }
 
 function duplicarRegistro(id) {
@@ -4328,8 +4287,8 @@ function processarImportacao(event) {
         });
       }
 
-      novos.forEach(r => salvarRegistroFirebase(r));
-      toast(`${novos.length} registros importados com sucesso!`, 'success');
+      novos.forEach(function(r) { salvarRegistroFirebase(r); });
+      toast(novos.length + ' registros importados!', 'success');
     } catch (err) {
       toast('Erro ao importar arquivo. Verifique se é um JSON válido.', 'error');
     }
@@ -4371,11 +4330,11 @@ function exportarCSV() {
 function limparTudo() {
   if (!confirm('⚠️ ATENÇÃO!\n\nIsso irá APAGAR TODOS os registros permanentemente.\n\nTem certeza absoluta? Esta ação não pode ser desfeita.')) return;
   if (!confirm('Confirmação final: deseja mesmo apagar tudo?')) return;
-  const ids = registros.map(r => r.id);
-  ids.forEach(id => deletarRegistroFirebase(id));
+  var ids = registros.map(function(r){return r.id;});
+  ids.forEach(function(id){ deletarRegistroFirebase(id); });
   registros = []; clientesBase = [];
   renderDashboard(); renderBackupInfo(); atualizarBadges();
-  toast('Todos os dados foram removidos.', 'info');
+  toast('Todos os dados removidos.', 'info');
 }
 
 function renderBackupInfo() {
@@ -4635,10 +4594,10 @@ function init() {
   atualizarBadges();
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', function() {
   init();
-  document.getElementById('loginUser').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('loginSenha').focus(); });
-  document.getElementById('loginSenha').addEventListener('keydown', e => { if(e.key==='Enter') fazerLogin(); });
+  document.getElementById('loginUser').addEventListener('keydown', function(e) { if(e.key==='Enter') document.getElementById('loginSenha').focus(); });
+  document.getElementById('loginSenha').addEventListener('keydown', function(e) { if(e.key==='Enter') fazerLogin(); });
 });
 
 </script>
