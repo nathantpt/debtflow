@@ -2547,13 +2547,17 @@ function criarUsuario() {
     });
 }
 
-function desativarUsuario(uid, login) {
+function desativarUsuario(btn) {
+  var uid = btn.getAttribute('data-uid');
+  var login = btn.getAttribute('data-login');
   if (!confirm('Desativar ' + login + '?')) return;
   db.collection('usuarios').doc(uid).update({ativo: false})
     .then(function() { toast(login + ' desativado.', 'info'); renderUsuarios(); });
 }
 
-function reativarUsuario(uid, login) {
+function reativarUsuario(btn) {
+  var uid = btn.getAttribute('data-uid');
+  var login = btn.getAttribute('data-login');
   db.collection('usuarios').doc(uid).update({ativo: true})
     .then(function() { toast(login + ' reativado.', 'success'); renderUsuarios(); });
 }
@@ -2563,29 +2567,41 @@ function renderUsuarios() {
   if (!lista) return;
   lista.innerHTML = '<div style="color:var(--text2);font-size:13px;padding:12px;">Carregando...</div>';
   db.collection('usuarios').get().then(function(snap) {
-    if (snap.empty) { lista.innerHTML = '<div style="color:var(--text2);padding:12px;">Nenhum usuario.</div>'; return; }
+    if (snap.empty) {
+      lista.innerHTML = '<div style="color:var(--text2);padding:12px;">Nenhum usuario.</div>';
+      return;
+    }
     lista.innerHTML = '';
     snap.forEach(function(d) {
       var u = d.data();
       var rc = u.role === 'master' ? 'role-master' : 'role-user';
       var rl = u.role === 'master' ? 'Master' : 'Usuario';
       var st = u.ativo ? 'Ativo' : 'Desativado';
-      var ab = '';
-      if (u.role !== 'master') {
-        ab = u.ativo
-          ? '<button class="btn-danger-sm" onclick="desativarUsuario('' + u.uid + '','' + u.login + '')">Desativar</button>'
-          : '<button class="btn btn-primary" style="padding:5px 12px;font-size:12px;" onclick="reativarUsuario('' + u.uid + '','' + u.login + '')">Reativar</button>';
-      }
       var card = document.createElement('div');
       card.className = 'usuario-card';
-      card.innerHTML = '<div class="usuario-info"><div class="usuario-avatar">' + u.login[0] + '</div>'
-        + '<div><div class="usuario-name">' + u.login + ' <span class="role-pill ' + rc + '">' + rl + '</span></div>'
-        + '<div class="usuario-email">' + u.email + ' - ' + st + '</div></div></div>'
-        + '<div class="usuario-actions">' + ab + '</div>';
+      var infoHtml = '<div class="usuario-info">'
+        + '<div class="usuario-avatar">' + (u.login ? u.login[0] : '?') + '</div>'
+        + '<div>'
+        + '<div class="usuario-name">' + (u.login||'') + ' <span class="role-pill ' + rc + '">' + rl + '</span></div>'
+        + '<div class="usuario-email">' + (u.email||'') + ' - ' + st + '</div>'
+        + '</div></div>';
+      var actHtml = '<div class="usuario-actions">';
+      if (u.role !== 'master') {
+        var uid = u.uid || '';
+        var login = u.login || '';
+        if (u.ativo) {
+          actHtml += '<button class="btn-danger-sm" onclick="desativarUsuario(this)" data-uid="' + uid + '" data-login="' + login + '">Desativar</button>';
+        } else {
+          actHtml += '<button class="btn btn-primary" style="padding:5px 12px;font-size:12px;" onclick="reativarUsuario(this)" data-uid="' + uid + '" data-login="' + login + '">Reativar</button>';
+        }
+      }
+      actHtml += '</div>';
+      card.innerHTML = infoHtml + actHtml;
       lista.appendChild(card);
     });
   });
 }
+
 
 function carregarDados() { /* Firebase carrega apos login */ }
 function salvarDados() { registros.forEach(function(r) { salvarRegistroFirebase(r); }); }
