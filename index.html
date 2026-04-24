@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -79,7 +79,7 @@
   --p-urgente:   #f05252;
 
   /* Estrutura */
-  --sidebar-w:   230px;
+  --sidebar-w:   210px;
   --topbar-h:    64px;
   --radius:      10px;
   --radius-sm:   6px;
@@ -259,7 +259,7 @@ html, body {
 }
 
 /* ===================== PAGES ===================== */
-.page { display: none; padding: 28px; flex: 1; }
+.page { display: none; padding: 18px 20px; flex: 1; }
 .page.active { display: block; }
 
 /* ===================== BUTTONS ===================== */
@@ -306,7 +306,7 @@ html, body {
 }
 
 .btn-icon {
-  padding: 6px;
+  padding: 5px;
   border-radius: var(--radius-sm);
   background: var(--bg3);
   color: var(--text2);
@@ -316,6 +316,7 @@ html, body {
   align-items: center;
   justify-content: center;
   transition: all 0.15s;
+  flex-shrink: 0;
 }
 .btn-icon:hover { background: var(--border2); color: var(--text); }
 .btn-icon.green:hover { background: rgba(45,212,160,0.15); color: var(--green); border-color: var(--green); }
@@ -563,6 +564,47 @@ html, body {
 }
 
 /* ===================== FILTER BAR ===================== */
+/* Periodo bar */
+.periodo-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  flex-wrap: wrap;
+}
+.periodo-bar label { font-size: 12px; color: var(--text3); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+.periodo-select {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 5px 10px;
+  outline: none;
+  cursor: pointer;
+}
+.periodo-fechado-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: rgba(93,103,126,0.2);
+  color: var(--text3);
+}
+.periodo-aberto-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  background: rgba(45,212,160,0.15);
+  color: var(--green);
+}
+
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
@@ -633,14 +675,14 @@ html, body {
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .data-table thead th {
   background: var(--bg3);
-  padding: 12px 14px;
+  padding: 10px 10px;
   text-align: left;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--text3);
   letter-spacing: 0.5px;
@@ -648,6 +690,12 @@ html, body {
   border-bottom: 1px solid var(--border);
   white-space: nowrap;
 }
+.data-table thead th.th-filtrable {
+  cursor: pointer;
+  user-select: none;
+}
+.data-table thead th.th-filtrable:hover { color: var(--text2); }
+.data-table thead th.th-ativo { color: var(--primary) !important; }
 
 .data-table tbody tr {
   border-bottom: 1px solid var(--border);
@@ -657,16 +705,17 @@ html, body {
 .data-table tbody tr:hover { background: rgba(255,255,255,0.02); }
 
 .data-table td {
-  padding: 11px 14px;
+  padding: 9px 10px;
   vertical-align: middle;
   white-space: nowrap;
 }
 
 /* Row highlights */
-.row-pago { background: rgba(45,212,160,0.04); }
-.row-atrasado { background: rgba(240,82,82,0.05); }
-.row-hoje { background: rgba(255,209,102,0.05); }
-.row-breve { background: rgba(245,166,35,0.04); }
+.row-pago { background: rgba(45,212,160,0.07); }
+.row-recebido { background: rgba(56,189,248,0.07); }
+.row-atrasado { background: rgba(240,82,82,0.08); }
+.row-hoje { background: rgba(255,209,102,0.08); }
+.row-breve { background: rgba(245,166,35,0.06); }
 
 /* STATUS BADGE */
 .status-badge {
@@ -695,8 +744,8 @@ html, body {
 .status-Previsto { background: rgba(56,189,248,0.15); color: var(--s-previsto); }
 .status-Previsto::before { background: var(--s-previsto); }
 
-.status-Recebido { background: rgba(45,212,160,0.15); color: var(--s-recebido); }
-.status-Recebido::before { background: var(--s-recebido); }
+.status-Recebido { background: rgba(56,189,248,0.15); color: var(--cyan); }
+.status-Recebido::before { background: var(--cyan); }
 
 .status-Pago { background: rgba(45,212,160,0.15); color: var(--s-pago); }
 .status-Pago::before { background: var(--s-pago); }
@@ -779,9 +828,52 @@ html, body {
 /* TABLE ACTIONS */
 .actions-cell {
   display: flex;
-  gap: 4px;
+  gap: 3px;
   align-items: center;
+  flex-wrap: nowrap;
 }
+
+/* Largura mínima por coluna */
+.data-table th:nth-child(12),
+.data-table td:nth-child(12) { min-width: 88px; }
+
+/* Dropdown de ações */
+.action-more {
+  position: relative;
+}
+.action-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  z-index: 100;
+  min-width: 170px;
+  overflow: hidden;
+}
+.action-more.open .action-menu { display: block; }
+.action-menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 14px;
+  background: none;
+  border: none;
+  color: var(--text2);
+  font-family: var(--font);
+  font-size: 12.5px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+}
+.action-menu button:hover { background: var(--border); color: var(--text); }
+.action-menu button.danger { color: var(--red); }
+.action-menu button.danger:hover { background: rgba(240,82,82,0.12); }
+.action-menu hr { border: none; border-top: 1px solid var(--border); margin: 3px 0; }
 
 .table-empty {
   padding: 60px;
@@ -1779,6 +1871,15 @@ select.form-input { cursor: pointer; }
           <span class="card-label">Devolvido ao Caixa</span>
         </div>
       </div>
+      <div class="card" id="cardPrejuizoWrap" style="display:none;border:1px solid rgba(240,82,82,0.35);background:rgba(240,82,82,0.06)">
+        <div class="card-icon" style="background:rgba(240,82,82,0.12);color:var(--red)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div class="card-body">
+          <span class="card-value card-value--money" id="cardPrejuizo" style="color:var(--red)">R$ 0,00</span>
+          <span class="card-label" id="cardPrejuizoLabel">Total Prejuizo</span>
+        </div>
+      </div>
       <div class="card card--pendente-valor">
         <div class="card-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -1827,6 +1928,15 @@ select.form-input { cursor: pointer; }
 
   <!-- ============ PAGE: BOLETOS ============ -->
   <section class="page" id="page-boletos">
+    <!-- PERIODO BAR -->
+    <div class="periodo-bar">
+      <label>Periodo:</label>
+      <select class="periodo-select" id="selectPeriodo" onchange="mudarPeriodo()"></select>
+      <span id="periodoStatusBadge"></span>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <button class="btn btn-ghost" id="btnFecharMes" onclick="fecharMes()" style="font-size:12px">Fechar Mes Atual</button>
+      </div>
+    </div>
     <!-- FILTER BAR -->
     <div class="filter-bar">
       <div class="filter-group">
@@ -1850,7 +1960,7 @@ select.form-input { cursor: pointer; }
         </select>
       </div>
       <div class="filter-group">
-        <select class="filter-select" id="filterCaixa" onchange="renderTabela()">
+        <select class="filter-select" id="filterCaixa" onchange="atualizarThCaixa(); renderTabela()">
           <option value="">Todo o Caixa</option>
           <option value="Não saiu do caixa">Não saiu do caixa</option>
           <option value="Fora do caixa">Fora do caixa</option>
@@ -1897,7 +2007,6 @@ select.form-input { cursor: pointer; }
           <tr>
             <th>ID</th>
             <th>Cliente</th>
-            <th>CPF</th>
             <th>Banco</th>
             <th>Contrato</th>
             <th>Vl. Parcela</th>
@@ -1905,7 +2014,7 @@ select.form-input { cursor: pointer; }
             <th>Solicitado</th>
             <th>Vencimento</th>
             <th>Status</th>
-            <th>Caixa</th>
+            <th id="thCaixa" class="th-filtrable" onclick="cicloCaixaFilter()" title="Clique para filtrar por situação do caixa">Caixa ⇅</th>
             <th>Prioridade</th>
             <th>Responsável</th>
             <th>Prazos</th>
@@ -2043,14 +2152,6 @@ select.form-input { cursor: pointer; }
         <p>Exporta todos os dados em planilha CSV compatível com Excel e Google Sheets.</p>
         <button class="btn btn-primary" onclick="exportarCSV()">Exportar CSV</button>
       </div>
-      <div class="backup-card">
-        <div class="backup-icon red">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-        </div>
-        <h3>Limpar Todos os Dados</h3>
-        <p>Remove permanentemente todos os registros do sistema. Esta ação não pode ser desfeita.</p>
-        <button class="btn btn-danger" onclick="limparTudo()">Limpar Dados</button>
-      </div>
     </div>
     <div class="backup-info">
       <h4>📋 Informações do Sistema</h4>
@@ -2113,7 +2214,8 @@ select.form-input { cursor: pointer; }
       <div class="form-row">
         <div class="form-group">
           <label class="form-label required">Banco Credor</label>
-          <input type="text" class="form-input" id="formBanco" placeholder="Ex: Itaú, Bradesco…" list="bancosDatalist">
+          <input type="text" class="form-input" id="formBanco" placeholder="Ex: Itaú, Bradesco…" list="bancosDatalist" oninput="atualizarHintPrazo()">
+          <div id="bancoPrazoHint" class="form-helper-text" style="display:none;margin-top:5px"></div>
           <datalist id="bancosDatalist">
             <option value="Itaú">
             <option value="Bradesco">
@@ -2160,7 +2262,7 @@ select.form-input { cursor: pointer; }
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Migrado</label>
-            <select class="form-input" id="formMigrado">
+            <select class="form-input" id="formMigrado" onchange="atualizarHintPrazo()">
               <option value="Não">Não migrado</option>
               <option value="Sim">Migrado</option>
             </select>
@@ -2227,7 +2329,7 @@ select.form-input { cursor: pointer; }
         </div>
         <div class="form-group">
           <label class="form-label required">Status</label>
-          <select class="form-input" id="formStatus" onchange="atualizarSituacaoCaixaPorStatus()">
+          <select class="form-input" id="formStatus" onchange="atualizarSituacaoCaixaPorStatus(); toggleCamposPago()">
             <option value="Solicitado">Solicitado</option>
             <option value="Recebido">Recebido</option>
             <option value="Pago">Pago</option>
@@ -2247,7 +2349,30 @@ select.form-input { cursor: pointer; }
         </div>
         <div class="form-group">
           <label class="form-label">Regra automática</label>
-          <div class="form-helper-text info" style="margin-top:10px">Ao marcar como Pago, o sistema assume “Fora do caixa” por padrão. Depois, você pode trocar para “Devolvido ao caixa”.</div>
+          <div class="form-helper-text info" style="margin-top:10px">Ao marcar como Pago, o sistema assume "Fora do caixa" por padrão. Depois, você pode trocar para "Devolvido ao caixa".</div>
+        </div>
+      </div>
+
+      <!-- SEÇÃO DEVOLUÇÃO PARCIAL — visível só quando Pago -->
+      <div id="grupoPrejuizo" style="display:none;background:rgba(240,82,82,0.05);border:1px solid rgba(240,82,82,0.2);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none">
+          <input type="checkbox" id="checkDevolucaoParcial" onchange="toggleDevolucaoParcial()" style="width:16px;height:16px;accent-color:var(--red);cursor:pointer">
+          <span style="font-size:13px;font-weight:600;color:var(--text1)">A devolucao ao comprador foi parcial</span>
+        </label>
+        <div id="campoDevolucaoParcial" style="display:none;margin-top:14px">
+          <div class="form-row" style="margin-bottom:0">
+            <div class="form-group">
+              <label class="form-label">Valor Devolvido (R$)</label>
+              <input type="text" class="form-input" id="formValorDevolvido" placeholder="R$ 0,00" oninput="mascaraMoeda(this);calcularPrejuizoHint()">
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end">
+              <div id="prejuizoHint" style="display:none;width:100%;padding:10px 14px;background:rgba(240,82,82,0.12);border-radius:var(--radius-sm);border:1px solid rgba(240,82,82,0.3);line-height:1.8">
+                <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--text2)"><span>Saldo total</span><span id="prejuizoSaldoTotal" style="font-family:var(--font-mono)"></span></div>
+                <div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--text2)"><span>Devolvido</span><span id="prejuizoDevolvido" style="font-family:var(--font-mono)"></span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--red);border-top:1px solid rgba(240,82,82,0.25);margin-top:5px;padding-top:5px"><span>Prejuizo</span><span id="prejuizoValor" style="font-family:var(--font-mono)"></span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -2362,6 +2487,8 @@ let chartMensal = null;
 let editandoId = null;
 let quickFilterAtivo = '';
 let registrosExpandidos = new Set();
+let periodos = [];
+let periodoAtivo = null;
 let observacoesExpandidas = new Set();
 
 const STATUS_LIST = ['Solicitado','Recebido','Pago','Atrasado','Cancelado'];
@@ -2503,6 +2630,7 @@ function aplicarRestricoesPerfil() {
 
 function carregarDadosFirebase() {
   if (unsubscribeSnapshot) unsubscribeSnapshot();
+  carregarPeriodos();
   unsubscribeSnapshot = db.collection('registros').onSnapshot(function(snap) {
     registros = [];
     snap.forEach(function(d) {
@@ -2512,6 +2640,78 @@ function carregarDadosFirebase() {
     clientesBase = gerarClientesBaseAPartirDosRegistros(registros);
     renderDashboard(); renderTabela(); renderAlertas(); atualizarBadges(); renderBackupInfo();
   });
+}
+
+function carregarPeriodos() {
+  db.collection('periodos').onSnapshot(function(snap) {
+    periodos = [];
+    snap.forEach(function(d) { periodos.push(Object.assign({ id: d.id }, d.data())); });
+    periodos.sort((a, b) => (b.criadoEm || '').localeCompare(a.criadoEm || ''));
+    if (!periodos.length) {
+      const agora = new Date();
+      const id = agora.getFullYear() + '-' + String(agora.getMonth()+1).padStart(2,'0');
+      const meses = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+      const nome = meses[agora.getMonth()] + ' ' + agora.getFullYear();
+      const novo = { id, nome, status: 'aberto', criadoEm: agora.toISOString() };
+      db.collection('periodos').doc(id).set(novo);
+      periodos = [novo];
+    }
+    const aberto = periodos.find(p => p.status === 'aberto');
+    if (!periodoAtivo) periodoAtivo = aberto ? aberto.id : periodos[0]?.id;
+    renderPeriodoBar();
+    renderTabela();
+  });
+}
+
+function renderPeriodoBar() {
+  const sel = document.getElementById('selectPeriodo');
+  const badge = document.getElementById('periodoStatusBadge');
+  const btnFechar = document.getElementById('btnFecharMes');
+  if (!sel) return;
+  sel.innerHTML = periodos.map(p =>
+    `<option value="${p.id}" ${p.id === periodoAtivo ? 'selected' : ''}>${p.nome}${p.status === 'fechado' ? ' (fechado)' : ' (aberto)'}</option>`
+  ).join('');
+  const atual = periodos.find(p => p.id === periodoAtivo);
+  if (badge) {
+    badge.className = atual?.status === 'fechado' ? 'periodo-fechado-badge' : 'periodo-aberto-badge';
+    badge.textContent = atual?.status === 'fechado' ? 'Fechado' : 'Mes Aberto';
+  }
+  if (btnFechar) btnFechar.style.display = atual?.status === 'aberto' ? '' : 'none';
+}
+
+function mudarPeriodo() {
+  periodoAtivo = document.getElementById('selectPeriodo')?.value || periodoAtivo;
+  renderPeriodoBar();
+  renderTabela();
+}
+
+function fecharMes() {
+  const atual = periodos.find(p => p.id === periodoAtivo);
+  if (!atual || atual.status === 'fechado') { toast('Este periodo ja esta fechado.', 'error'); return; }
+  const naoPagem = registros.filter(r => r.periodoId === periodoAtivo && !['Pago','Cancelado'].includes(r.status)).length;
+  const msg = naoPagem > 0
+    ? `Fechar "${atual.nome}"? ${naoPagem} boleto(s) em aberto serao movidos para o novo periodo.`
+    : `Fechar "${atual.nome}"? Todos os boletos do periodo estao pagos ou cancelados.`;
+  if (!confirm(msg)) return;
+
+  const agora = new Date();
+  const novoMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 1);
+  const novoId = novoMes.getFullYear() + '-' + String(novoMes.getMonth()+1).padStart(2,'0');
+  const meses = ['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  const novoNome = meses[novoMes.getMonth()] + ' ' + novoMes.getFullYear();
+
+  db.collection('periodos').doc(periodoAtivo).update({ status: 'fechado', fechadoEm: agora.toISOString() });
+  db.collection('periodos').doc(novoId).set({ id: novoId, nome: novoNome, status: 'aberto', criadoEm: agora.toISOString() });
+
+  registros.forEach(r => {
+    if ((r.periodoId === periodoAtivo || !r.periodoId) && !['Pago','Cancelado'].includes(r.status)) {
+      r.periodoId = novoId;
+      salvarRegistroFirebase(r);
+    }
+  });
+
+  periodoAtivo = novoId;
+  toast('Mes fechado! Boletos pendentes movidos para ' + novoNome + '.', 'success');
 }
 
 function salvarRegistroFirebase(reg) {
@@ -2944,7 +3144,6 @@ function adicionarContratoAdicional(contrato = {}) {
           <select class="form-input contrato-caixa">
             <option value="Não saiu do caixa" ${(contrato.caixaContrato||'Não saiu do caixa')==='Não saiu do caixa'?'selected':''}>Não saiu do caixa</option>
             <option value="Fora do caixa" ${(contrato.caixaContrato||'')==='Fora do caixa'?'selected':''}>Fora do caixa</option>
-            <option value="Devolvido ao caixa" ${(contrato.caixaContrato||'')==='Devolvido ao caixa'?'selected':''}>Devolvido ao caixa</option>
           </select>
         </div>
       </div>
@@ -3027,6 +3226,82 @@ function atualizarSituacaoCaixaPorStatus() {
   }
 }
 
+function toggleCamposPago() {
+  const isPago = document.getElementById('formStatus')?.value === 'Pago';
+  const grupo = document.getElementById('grupoPrejuizo');
+  if (grupo) grupo.style.display = isPago ? 'block' : 'none';
+  if (!isPago) {
+    const check = document.getElementById('checkDevolucaoParcial');
+    if (check) check.checked = false;
+    toggleDevolucaoParcial();
+  }
+}
+
+function toggleDevolucaoParcial() {
+  const checked = document.getElementById('checkDevolucaoParcial')?.checked;
+  const campo = document.getElementById('campoDevolucaoParcial');
+  if (campo) campo.style.display = checked ? 'block' : 'none';
+  if (!checked) {
+    const vd = document.getElementById('formValorDevolvido');
+    if (vd) vd.value = '';
+    const hint = document.getElementById('prejuizoHint');
+    if (hint) hint.style.display = 'none';
+  }
+}
+
+function calcularSaldoTotalDoFormulario() {
+  const principal = parseMoeda(document.getElementById('formSaldoDevedor')?.value || '0');
+  const adicionais = [...document.querySelectorAll('#contratosAdicionaisLista .contrato-extra-card')]
+    .reduce((s, card) => s + parseMoeda(card.querySelector('.contrato-saldo')?.value || '0'), 0);
+  return principal + adicionais;
+}
+
+function calcularPrejuizoHint() {
+  const vdStr = document.getElementById('formValorDevolvido')?.value || '';
+  const hint = document.getElementById('prejuizoHint');
+  if (!hint) return;
+  if (!vdStr) { hint.style.display = 'none'; return; }
+  const vd = parseMoeda(vdStr);
+  const sd = calcularSaldoTotalDoFormulario();
+  if (vd <= 0 || sd <= 0) { hint.style.display = 'none'; return; }
+  const prej = sd - vd;
+  document.getElementById('prejuizoSaldoTotal').textContent = formatarMoeda(sd);
+  document.getElementById('prejuizoDevolvido').textContent = formatarMoeda(vd);
+  document.getElementById('prejuizoValor').textContent = prej > 0 ? formatarMoeda(prej) : 'Sem prejuizo';
+  hint.style.display = 'block';
+}
+
+// Feature 3: dica de prazo médio de margem
+function atualizarHintPrazo() {
+  const banco = document.getElementById('formBanco')?.value.trim() || '';
+  const migrado = document.getElementById('formMigrado')?.value || '';
+  const hint = document.getElementById('bancoPrazoHint');
+  if (!hint) return;
+  if (!banco) { hint.style.display = 'none'; return; }
+
+  const prazos = [];
+  registros.forEach(r => {
+    obterTodosContratos(r).forEach(c => {
+      if (c.banco && c.banco.toLowerCase() === banco.toLowerCase() && c.prazoMargem != null && !isNaN(Number(c.prazoMargem))) {
+        if (!migrado || c.migrado === migrado) prazos.push(Number(c.prazoMargem));
+      }
+    });
+  });
+
+  if (!prazos.length) {
+    hint.innerHTML = 'Sem dados historicos para este banco' + (migrado === 'Sim' ? ' (migrado)' : '') + '. Sera a primeira metrica desse tipo.';
+    hint.className = 'form-helper-text';
+    hint.style.display = 'block';
+    return;
+  }
+  const avg = Math.round(prazos.reduce((a, b) => a + b, 0) / prazos.length);
+  const min = Math.min(...prazos);
+  const max = Math.max(...prazos);
+  hint.innerHTML = 'Margem abre em media em <strong>' + avg + ' dias</strong> (min: ' + min + 'd / max: ' + max + 'd) &mdash; ' + prazos.length + ' contrato' + (prazos.length !== 1 ? 's' : '') + ' na base';
+  hint.className = 'form-helper-text info';
+  hint.style.display = 'block';
+}
+
 function salvarRegistro() {
   // Validação básica
   const nome = document.getElementById('formNome').value.trim();
@@ -3088,13 +3363,13 @@ function salvarRegistro() {
         obs: document.getElementById('formObs').value.trim(),
         obsInterna: document.getElementById('formObsInterna').value.trim(),
         comprovante: document.getElementById('formComprovante').value.trim(),
-        // Novos campos operacionais
         migrado: document.getElementById('formMigrado').value,
         bancoOrigem: document.getElementById('formBancoOrigem').value.trim(),
         dataQuitacao: document.getElementById('formDataQuitacao').value,
         dataMargemAberta: document.getElementById('formDataMargemAberta').value,
         prazoMargem: calcularDiasEntreDatas(document.getElementById('formDataQuitacao').value, document.getElementById('formDataMargemAberta').value),
         caixaPrincipal: document.getElementById('formCaixaPrincipal').value,
+        valorDevolvido: status === 'Pago' ? parseMoeda(document.getElementById('formValorDevolvido').value || '0') : null,
         ultimaEdicao: agora,
         historico,
       });
@@ -3133,6 +3408,8 @@ function salvarRegistro() {
       dataMargemAberta: document.getElementById('formDataMargemAberta').value,
       prazoMargem: calcularDiasEntreDatas(document.getElementById('formDataQuitacao').value, document.getElementById('formDataMargemAberta').value),
       caixaPrincipal: document.getElementById('formCaixaPrincipal').value,
+      valorDevolvido: status === 'Pago' ? parseMoeda(document.getElementById('formValorDevolvido').value || '0') : null,
+      periodoId: periodoAtivo || null,
       criacao: agora,
       ultimaEdicao: agora,
       historico: [{
@@ -3160,7 +3437,7 @@ function salvarRegistro() {
 function excluirRegistro(id) {
   const reg = registros.find(r => String(r.id) === String(id));
   if (!reg) return;
-  if (!confirm(`Tem certeza que deseja excluir o registro de "${reg.nome}"?\n\nEsta ação não pode ser desfeita.`)) return;
+  if (!confirm(`Excluir o registro de "${reg.nome}"?\n\nATENCAO: isso apaga permanentemente da base de dados (inclusive no site). Nao ha como recuperar.`)) return;
 
   deletarRegistroFirebase(id);
   toast('Registro excluido.', 'info');
@@ -3277,6 +3554,16 @@ function preencherFormulario(reg) {
   document.getElementById('formDataQuitacao').value = reg.dataQuitacao || '';
   document.getElementById('formDataMargemAberta').value = reg.dataMargemAberta || '';
   document.getElementById('formCaixaPrincipal').value = reg.caixaPrincipal || reg.situacaoCaixa || 'Não saiu do caixa';
+  const temParcial = reg.valorDevolvido && reg.valorDevolvido > 0;
+  const checkEl = document.getElementById('checkDevolucaoParcial');
+  if (checkEl) checkEl.checked = !!temParcial;
+  const campoEl = document.getElementById('campoDevolucaoParcial');
+  if (campoEl) campoEl.style.display = temParcial ? 'block' : 'none';
+  const vdEl = document.getElementById('formValorDevolvido');
+  if (vdEl) vdEl.value = temParcial ? formatarMoeda(reg.valorDevolvido) : '';
+  toggleCamposPago();
+  calcularPrejuizoHint();
+  atualizarHintPrazo();
   calcularPrazoMargem();
   document.getElementById('contratosAdicionaisLista').innerHTML = '';
   (reg.contratosAdicionais || []).forEach(c => adicionarContratoAdicional(c));
@@ -3290,6 +3577,15 @@ function limparFormulario() {
     'formCanal','formResponsavel','formSituacaoCaixa','formObs','formObsInterna','formComprovante',
     'formMigrado','formBancoOrigem','formDataQuitacao','formDataMargemAberta','formPrazoMargem','formCaixaPrincipal'];
   ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  const vdEl = document.getElementById('formValorDevolvido');
+  if (vdEl) vdEl.value = '';
+  const checkEl2 = document.getElementById('checkDevolucaoParcial');
+  if (checkEl2) checkEl2.checked = false;
+  const campoEl2 = document.getElementById('campoDevolucaoParcial');
+  if (campoEl2) campoEl2.style.display = 'none';
+  toggleCamposPago();
+  const bancoPrazoHint = document.getElementById('bancoPrazoHint');
+  if (bancoPrazoHint) bancoPrazoHint.style.display = 'none';
   // Reset selects to defaults
   const migEl = document.getElementById('formMigrado');
   if (migEl) migEl.value = 'Não';
@@ -3346,15 +3642,27 @@ function fecharHistoricoOverlay(e) {
    ============================================================ */
 
 
+function toggleActionMenu(wrapper, e) {
+  e.stopPropagation();
+  const isOpen = wrapper.classList.contains('open');
+  document.querySelectorAll('.action-more.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) wrapper.classList.add('open');
+}
+document.addEventListener('click', () => {
+  document.querySelectorAll('.action-more.open').forEach(el => el.classList.remove('open'));
+});
+
 function toggleDetalhesRegistro(id) {
-  if (registrosExpandidos.has(id)) registrosExpandidos.delete(id);
-  else registrosExpandidos.add(id);
+  const sid = String(id);
+  if (registrosExpandidos.has(sid)) registrosExpandidos.delete(sid);
+  else registrosExpandidos.add(sid);
   renderTabela();
 }
 
 function toggleObservacaoRegistro(id) {
-  if (observacoesExpandidas.has(id)) observacoesExpandidas.delete(id);
-  else observacoesExpandidas.add(id);
+  const sid = String(id);
+  if (observacoesExpandidas.has(sid)) observacoesExpandidas.delete(sid);
+  else observacoesExpandidas.add(sid);
   renderTabela();
 }
 
@@ -3374,7 +3682,7 @@ function getContratosDetalheHtml(r) {
 
   return `
     <tr class="contratos-detail-row">
-      <td colspan="15">
+      <td colspan="14">
         <div class="contratos-detail-wrap">
           <div class="contratos-detail-title">Contratos lançados para ${escapeHtml(r.nome || 'cliente')}</div>
           <table class="contratos-detail-table">
@@ -3413,6 +3721,15 @@ function renderTabela() {
   const fOrdem = document.getElementById('filterOrdem')?.value || '';
 
   let lista = [...registros];
+
+  // Filtro por periodo
+  if (periodoAtivo) {
+    lista = lista.filter(r => {
+      if (r.periodoId) return r.periodoId === periodoAtivo;
+      const periodoAberto = periodos.find(p => p.status === 'aberto');
+      return periodoAtivo === (periodoAberto?.id || periodoAtivo);
+    });
+  }
 
   // Quick filter
   if (quickFilterAtivo === 'pendentes') {
@@ -3470,18 +3787,17 @@ function renderTabela() {
     const situacaoCaixa = normalizarSituacaoCaixa(r.status, r.situacaoCaixa);
     const caixaClass = getCaixaClass(situacaoCaixa);
     const daysChip = getDaysChip(r);
-    const expanded = registrosExpandidos.has(r.id);
-    const obsExpanded = observacoesExpandidas.has(r.id);
+    const expanded = registrosExpandidos.has(String(r.id));
+    const obsExpanded = observacoesExpandidas.has(String(r.id));
 
     return `
       <tr class="${rowClass}" onclick="toggleDetalhesRegistro(${r.id})" style="cursor:pointer" title="Clique para ver os contratos | Criado: ${formatarDataBR(r.criacao)} | Última edição: ${formatarDataBR(r.ultimaEdicao)}">
         <td><span class="text-muted text-small">#${r.id}</span></td>
         <td>
           <div style="font-weight:600">${escapeHtml(r.nome || '—')}</div>
-          <div class="text-muted text-small">${escapeHtml(r.telefone || '')}</div>
+          <div class="text-muted text-small">${escapeHtml(r.telefone || '')}${r.cpf ? ` · ${escapeHtml(r.cpf)}` : ''}</div>
           ${r.obs ? `<button type="button" class="obs-toggle-btn ${obsExpanded ? 'expanded' : ''}" onclick="event.stopPropagation(); toggleObservacaoRegistro(${r.id})"><span>${obsExpanded ? 'Ocultar observação' : 'Ver observação'}</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>${obsExpanded ? `<div class="obs-preview" title="${escapeHtmlAttr(r.obs)}">💬 ${escapeHtml(r.obs)}</div>` : ''}` : ''}
         </td>
-        <td class="money text-small">${r.cpf || '—'}</td>
         <td>
           ${renderBankBadges(obterBancosRegistro(r), true, 2)}
           <div class="bank-cell-note">${totalContratosRegistro(r)} contrato${totalContratosRegistro(r) !== 1 ? 's' : ''}</div>
@@ -3503,31 +3819,28 @@ function renderTabela() {
         <td><span class="status-badge ${statusClass}">${r.status || '—'}</span></td>
         <td><span class="caixa-badge ${caixaClass}">${situacaoCaixa}</span></td>
         <td><span class="prio-badge ${prioClass}">${r.prioridade || 'Normal'}</span></td>
-        <td class="text-small">${escapeHtml(r.responsavel || '—')}</td>
+        <td class="text-small">
+          ${escapeHtml(r.responsavel || '—')}
+          ${(r.status === 'Pago' && r.valorDevolvido > 0 && r.valorDevolvido < calcularSaldoTotalRegistro(r)) ? `<div style="margin-top:3px;font-size:10px;color:var(--red);font-weight:600">Prej: ${formatarMoeda(calcularSaldoTotalRegistro(r) - r.valorDevolvido)}</div>` : ''}
+        </td>
         <td>${daysChip}</td>
         <td>
           <div class="actions-cell" onclick="event.stopPropagation()">
             <button class="btn-icon blue" title="Editar" onclick="openModal('${r.id}')">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             </button>
-            ${r.email ? `<button class="btn-icon" title="Email: ${escapeHtmlAttr(r.email)} — Clique para copiar" style="color:var(--cyan)" onclick="abrirPainelEmail(${r.id}, event)">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </button>` : ''}
-            <button class="btn-icon green" title="Marcar Recebido" onclick="marcarRecebido('${r.id}')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            </button>
-            <button class="btn-icon" title="Marcar Pago" style="color:var(--green-d)" onclick="marcarPago('${r.id}')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-            </button>
-            <button class="btn-icon orange" title="Duplicar" onclick="duplicarRegistro('${r.id}')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            </button>
-            <button class="btn-icon" title="Histórico" onclick="abrirHistorico('${r.id}')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </button>
-            <button class="btn-icon red" title="Excluir" onclick="excluirRegistro('${r.id}')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-            </button>
+            <div class="action-more" onclick="toggleActionMenu(this, event)">
+              <button class="btn-icon" title="Mais ações" style="font-size:15px;letter-spacing:1px;padding:3px 6px">···</button>
+              <div class="action-menu">
+                ${r.email ? `<button onclick="abrirPainelEmail(${r.id}, event)" style="color:var(--cyan)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Email</button>` : ''}
+                <button onclick="marcarRecebido('${r.id}')" style="color:var(--green)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Marcar Recebido</button>
+                <button onclick="marcarPago('${r.id}')" style="color:var(--green-d)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Marcar Pago</button>
+                <button onclick="duplicarRegistro('${r.id}')" style="color:var(--orange)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
+                <button onclick="abrirHistorico('${r.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Histórico</button>
+                <hr>
+                <button class="danger" onclick="excluirRegistro('${r.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg> Excluir</button>
+              </div>
+            </div>
           </div>
         </td>
       </tr>
@@ -3538,6 +3851,7 @@ function renderTabela() {
 
 function getRowClass(r) {
   if (r.status === 'Pago') return 'row-pago';
+  if (r.status === 'Recebido') return 'row-recebido';
   if (r.vencimento === hoje()) return 'row-hoje';
   if (r.status === 'Atrasado' || (r.vencimento && r.vencimento < hoje() && r.status !== 'Pago' && r.status !== 'Cancelado')) return 'row-atrasado';
   const diff = diasAteNum(r.vencimento);
@@ -3569,6 +3883,7 @@ function getVencimentoChip(r) {
 }
 
 function getDaysChip(r) {
+  if (r.status === 'Pago' || r.status === 'Cancelado') return '—';
   const previstaChip = getPrevistaChip(r);
   const vencChip = getVencimentoChip(r);
 
@@ -3593,12 +3908,33 @@ function setQuickFilter(f) {
   renderTabela();
 }
 
+const CAIXA_CICLO = ['', 'Não saiu do caixa', 'Fora do caixa', 'Devolvido ao caixa'];
+const CAIXA_LABEL = { '': 'Caixa ⇅', 'Não saiu do caixa': 'Caixa: No caixa ✕', 'Fora do caixa': 'Caixa: Fora ✕', 'Devolvido ao caixa': 'Caixa: Devolvido ✕' };
+
+function cicloCaixaFilter() {
+  const sel = document.getElementById('filterCaixa');
+  if (!sel) return;
+  const idx = CAIXA_CICLO.indexOf(sel.value);
+  sel.value = CAIXA_CICLO[(idx + 1) % CAIXA_CICLO.length];
+  atualizarThCaixa();
+  renderTabela();
+}
+
+function atualizarThCaixa() {
+  const th = document.getElementById('thCaixa');
+  if (!th) return;
+  const val = document.getElementById('filterCaixa')?.value || '';
+  th.textContent = CAIXA_LABEL[val] || 'Caixa ⇅';
+  th.classList.toggle('th-ativo', val !== '');
+}
+
 function limparFiltros() {
   ['searchNome','filterBanco','filterStatus','filterCaixa','filterResponsavel','filterDataInicio','filterDataFim','filterOrdem']
     .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   quickFilterAtivo = '';
   document.querySelectorAll('.qfilter').forEach(b => b.classList.remove('active'));
   document.querySelector('.qfilter')?.classList.add('active');
+  atualizarThCaixa();
   renderTabela();
 }
 
@@ -3664,7 +4000,14 @@ function renderDashboard() {
 
   const valorDevolvidoCaixa = registros
     .filter(r => normalizarSituacaoCaixa(r.status, r.situacaoCaixa) === 'Devolvido ao caixa')
-    .reduce((s, r) => s + calcularSaldoTotalRegistro(r), 0);
+    .reduce((s, r) => {
+      const saldo = calcularSaldoTotalRegistro(r);
+      const devolvido = r.valorDevolvido > 0 ? r.valorDevolvido : saldo;
+      return s + devolvido;
+    }, 0);
+
+  const registrosComPrejuizo = registros.filter(r => r.valorDevolvido > 0 && r.valorDevolvido < calcularSaldoTotalRegistro(r));
+  const totalPrejuizoDash = registrosComPrejuizo.reduce((s, r) => s + (calcularSaldoTotalRegistro(r) - r.valorDevolvido), 0);
 
   document.getElementById('cardTotal').textContent = total;
   document.getElementById('cardPendentes').textContent = pendentes;
@@ -3677,6 +4020,12 @@ function renderDashboard() {
   document.getElementById('cardForaCaixa').textContent = formatarMoeda(valorForaCaixa);
   document.getElementById('cardDevolvidoCaixa').textContent = formatarMoeda(valorDevolvidoCaixa);
   document.getElementById('cardValorPendente').textContent = formatarMoeda(valorPendente);
+  const prejWrap = document.getElementById('cardPrejuizoWrap');
+  if (prejWrap) {
+    prejWrap.style.display = totalPrejuizoDash > 0 ? '' : 'none';
+    document.getElementById('cardPrejuizo').textContent = formatarMoeda(totalPrejuizoDash);
+    document.getElementById('cardPrejuizoLabel').textContent = `Prejuizo (${registrosComPrejuizo.length} reg.)`;
+  }
 
   // Alert strip
   const strip = document.getElementById('alertStrip');
@@ -3943,6 +4292,8 @@ function renderRelatorios() {
   const saldoTotal = lista.reduce((s, r) => s + calcularSaldoTotalRegistro(r), 0);
   const saldoPago = lista.filter(r => r.status === 'Pago').reduce((s, r) => s + calcularSaldoTotalRegistro(r), 0);
   const saldoPendente = lista.filter(r => !['Pago','Cancelado'].includes(r.status)).reduce((s, r) => s + calcularSaldoTotalRegistro(r), 0);
+  const listaComPrejuizo = lista.filter(r => r.status === 'Pago' && r.valorDevolvido > 0 && r.valorDevolvido < calcularSaldoTotalRegistro(r));
+  const totalPrejuizo = listaComPrejuizo.reduce((s, r) => s + (calcularSaldoTotalRegistro(r) - r.valorDevolvido), 0);
 
   // Summary cards
   document.getElementById('relSummary').innerHTML = `
@@ -3953,6 +4304,7 @@ function renderRelatorios() {
     <div class="card card--saldo"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div class="card-body"><span class="card-value card-value--money">${formatarMoeda(saldoTotal)}</span><span class="card-label">Saldo Total</span></div></div>
     <div class="card card--pago-valor"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><div class="card-body"><span class="card-value card-value--money">${formatarMoeda(saldoPago)}</span><span class="card-label">Saldo Pago</span></div></div>
     <div class="card card--pendente-valor"><div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div><div class="card-body"><span class="card-value card-value--money">${formatarMoeda(saldoPendente)}</span><span class="card-label">Saldo Pendente</span></div></div>
+    ${totalPrejuizo > 0 ? `<div class="card" style="border:1px solid rgba(240,82,82,0.3);background:rgba(240,82,82,0.06)"><div class="card-icon" style="background:rgba(240,82,82,0.12);color:var(--red)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div class="card-body"><span class="card-value card-value--money" style="color:var(--red)">${formatarMoeda(totalPrejuizo)}</span><span class="card-label">Total Prejuizo (${listaComPrejuizo.length} reg.)</span></div></div>` : ''}
   `;
 
   // Por status
@@ -4344,15 +4696,6 @@ function exportarCSV() {
   toast(`CSV exportado — ${registros.length} registros`, 'success');
 }
 
-function limparTudo() {
-  if (!confirm('⚠️ ATENÇÃO!\n\nIsso irá APAGAR TODOS os registros permanentemente.\n\nTem certeza absoluta? Esta ação não pode ser desfeita.')) return;
-  if (!confirm('Confirmação final: deseja mesmo apagar tudo?')) return;
-  var ids = registros.map(function(r){return r.id;});
-  ids.forEach(function(id){ deletarRegistroFirebase(id); });
-  registros = []; clientesBase = [];
-  renderDashboard(); renderBackupInfo(); atualizarBadges();
-  toast('Todos os dados removidos.', 'info');
-}
 
 function renderBackupInfo() {
   const info = document.getElementById('backupInfo');
